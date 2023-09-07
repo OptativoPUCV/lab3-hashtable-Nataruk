@@ -42,7 +42,7 @@ int is_equal(void* key1, void* key2){
 void insertMap(HashMap * map, char * key, void * value) {
   long index = hash(key, map->capacity);
   Pair * newPair = createPair(key, value);
-e
+
   // Verificar si el bucket ya tiene elementos
   if (map->buckets[index] == NULL) {
     // Si el bucket está vacío, simplemente asigna el nuevo par
