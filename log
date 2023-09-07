@@ -185,3 +185,25 @@ hashmap.c:93:19: error: incompatible types when initializing type ‘Pair *’ u
       |                   ^~~
 Compilation failed
 19c431a
+Thu 07 Sep 2023 03:48:06 PM UTC: 
+ hashmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+In file included from test.c:4:
+hashmap.c: In function ‘searchMap’:
+hashmap.c:92:23: error: ‘INITIAL_BUCKET_SIZE’ undeclared (first use in this function)
+   92 |   for (int i = 0; i < INITIAL_BUCKET_SIZE; i++) {
+      |                       ^~~~~~~~~~~~~~~~~~~
+hashmap.c:92:23: note: each undeclared identifier is reported only once for each function it appears in
+hashmap.c:93:20: error: incompatible types when initializing type ‘Pair **’ using type ‘Pair’
+   93 |     Pair ** pair = map->buckets[index][i];
+      |                    ^~~
+hashmap.c:94:36: error: ‘*pair’ is a pointer; did you mean to use ‘->’?
+   94 |     if (pair != NULL && strcmp(pair->key, key) == 0) {
+      |                                    ^~
+      |                                    ->
+hashmap.c:95:14: error: returning ‘Pair **’ from a function with incompatible return type ‘Pair *’ [-Werror=incompatible-pointer-types]
+   95 |       return pair; // Se encontró la clave, devolvemos el par correspondiente
+      |              ^~~~
+cc1: all warnings being treated as errors
+Compilation failed
+3ff5050

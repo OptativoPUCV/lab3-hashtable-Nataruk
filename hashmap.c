@@ -90,7 +90,7 @@ Pair * searchMap(HashMap * map,  char * key) {
 
   // Recorrer los elementos del bucket y buscar la clave
   for (int i = 0; i < INITIAL_BUCKET_SIZE; i++) {
-    Pair * pair = map->buckets[index][i];
+    Pair ** pair = map->buckets[index][i];
     if (pair != NULL && strcmp(pair->key, key) == 0) {
       return pair; // Se encontró la clave, devolvemos el par correspondiente
     }
