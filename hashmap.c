@@ -64,10 +64,7 @@ void insertMap(HashMap * map, char * key, void * value) {
         }
 
         // Si no se encontró ningún bucket vacío, el mapa está lleno y la inserción no es posible
-        if (nextIndex == index) {
-            // Manejar caso de mapa lleno
-            // Aquí puedes implementar una estrategia según tus necesidades, como redimensionar el mapa.
-        }
+        
     }
 
     map->size++;
