@@ -97,3 +97,20 @@ hashmap.c:72:35: error: incompatible types when assigning to type ‘Pair’ fro
       |                                   ^~~~~~~
 Compilation failed
 c714628
+Thu 07 Sep 2023 03:14:16 PM UTC: 
+ hashmap.c | 32 +++++++++-----------------------
+ 1 file changed, 9 insertions(+), 23 deletions(-)
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/cc1zBDJO.o: in function `insertMap.localalias':
+test.c:(.text+0x13d): undefined reference to `createMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/cc1zBDJO.o: in function `createMap_test1':
+test.c:(.text+0x3ca): undefined reference to `createMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/cc1zBDJO.o: in function `createMap_test2':
+test.c:(.text+0x3fa): undefined reference to `createMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/cc1zBDJO.o: in function `createMap_test3':
+test.c:(.text+0x44a): undefined reference to `createMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: test.c:(.text+0x47d): undefined reference to `createMap'
+/nix/store/039g378vc3pc3dvi9dzdlrd0i4q93qwf-binutils-2.39/bin/ld: /tmp/cc1zBDJO.o: in function `enlarge_test':
+test.c:(.text+0x1150): undefined reference to `enlarge'
+collect2: error: ld returned 1 exit status
+Compilation failed
+e6faec4

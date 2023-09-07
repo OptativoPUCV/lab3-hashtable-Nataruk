@@ -40,38 +40,24 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
- 
-  long index = hash(key, map->capacity);
+ long index = hash(key, map->capacity);
+    Pair * newPair = createPair(key, value);
 
-  // Verificar si el bucket ya tiene elementos
-  if (map->buckets[index] == NULL) {
-      // Si el bucket está vacío, creamos un arreglo dinámico para almacenar los pares
-      map->buckets[index] = (Pair **)malloc(sizeof(Pair *) * INITIAL_BUCKET_SIZE);
-      for (int i = 0; i < INITIAL_BUCKET_SIZE; i++) {
-          map->buckets[index][i] = NULL;
-      }
-  }
+    // Verificar si el bucket ya tiene elementos
+    if (map->buckets[index] == NULL) {
+        // Si el bucket está vacío, simplemente asigna el nuevo par
+        map->buckets[index] = newPair;
+    } else {
+        // Si el bucket ya tiene elementos, crea una tabla hash secundaria si aún no existe
+        if (map->buckets[index]->value == NULL) {
+            map->buckets[index]->value = createMap(map->capacity);
+        }
 
-  // Verificar si la clave ya existe en el bucket
-  for (int i = 0; map->buckets[index][i] != NULL; i++) {
-      if (strcmp(map->buckets[index][i]->key, key) == 0) {
-          // Si la clave ya existe, sobrescribe el valor y sale de la función
-          map->buckets[index][i]->value = value;
-          return;
-      }
-  }
+        // Inserta el nuevo par en la tabla hash secundaria
+        insertMap(map->buckets[index]->value, key, value);
+    }
 
-  // Si la clave no existe en el bucket, buscamos un espacio vacío en el arreglo dinámico
-  int position = 0;
-  while (map->buckets[index][position] != NULL) {
-      position++;
-  }
-
-  // Creamos un nuevo par y lo insertamos en el espacio vacío
-  Pair * newPair = createPair(key, value);
-  map->buckets[index][position] = newPair;
-  map->size++;
-
+    map->size++;
 }
 
 void eraseMap(HashMap * map,  char * key) {    
