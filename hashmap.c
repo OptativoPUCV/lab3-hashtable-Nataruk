@@ -38,7 +38,7 @@ int is_equal(void* key1, void* key2){
     return 0;
 }
 
-
+//Insertar en el mapa
 void insertMap(HashMap * map, char * key, void * value) {
   long index = hash(key, map->capacity);
   Pair * newPair = createPair(key, value);
@@ -46,12 +46,12 @@ void insertMap(HashMap * map, char * key, void * value) {
   // Verificar si la clave ya existe y sobrescribir el valor
   Pair * existingPair = searchMap(map, key);
   if (existingPair != NULL) {
-      existingPair->value = value;
-      return;
+    existingPair->value = value;
+    return;
   }
 
   // Insertar el nuevo par al inicio de la lista enlazada
-  newPair->next = map->buckets[index];
+  //newPair->next = map->buckets[index];
   map->buckets[index] = newPair;
   map->size++;
 
