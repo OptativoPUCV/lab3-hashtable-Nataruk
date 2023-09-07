@@ -81,9 +81,25 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-  
+  long index = hash(key, map->capacity);
+  Pair * pair = map->buckets[index];
 
-  return NULL; 
+  // Verificar si el bucket está vacío
+  if (pair == NULL) {
+    return NULL; // La clave no existe en el mapa
+  }
+
+  // Recorrer los elementos del bucket y buscar la clave
+  while (pair != NULL) {
+    if (strcmp(pair->key, key) == 0) {
+      return pair; // Se encontró la clave, devolvemos el par correspondiente
+    }
+    pair = pair->next; // Avanzar al siguiente elemento en caso de colisión
+  }
+
+  return NULL; // La clave no se encontró en el bucket
+
+  
 
 }
 
