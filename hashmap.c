@@ -40,15 +40,38 @@ int is_equal(void* key1, void* key2){
 
 //Insertar en el mapa
 void insertMap(HashMap * map, char * key, void * value) {
-  long index = hash(key, map->capacity);
-  Pair * newPair = createPair(key, value);
+  if (map == NULL || key == NULL) {
+        return;  // Verificar entradas inválidas
+    }
 
-  // Insertar el nuevo par en el bucket
-  map->buckets[index] = newPair;
-  map->size++;
+    long index = hash(key, map->capacity);
+    Pair * newPair = createPair(key, value);
 
-  // Actualizar el índice actual
-  map->current = index;
+    if (map->buckets[index] == NULL) {
+        // Si el bucket está vacío, simplemente inserta el nuevo par
+        map->buckets[index] = newPair;
+    } else {
+        // Si el bucket está ocupado debido a una colisión, busca el próximo bucket vacío
+        long nextIndex = (index + 1) % map->capacity;
+        while (nextIndex != index) {
+            if (map->buckets[nextIndex] == NULL) {
+                // Se encontró un bucket vacío, inserta el nuevo par aquí
+                map->buckets[nextIndex] = newPair;
+                break;
+            }
+            // Intenta el siguiente bucket en el ciclo
+            nextIndex = (nextIndex + 1) % map->capacity;
+        }
+
+        // Si no se encontró ningún bucket vacío, el mapa está lleno y la inserción no es posible
+        if (nextIndex == index) {
+            // Manejar caso de mapa lleno
+            // Aquí puedes implementar una estrategia según tus necesidades, como redimensionar el mapa.
+        }
+    }
+
+    map->size++;
+    map->current = index;
 }
 
 void enlarge(HashMap * map) {
