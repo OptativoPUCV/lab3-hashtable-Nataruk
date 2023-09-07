@@ -171,3 +171,17 @@ hashmap.c:97:16: error: ‘Pair’ has no member named ‘next’
       |                ^~
 Compilation failed
 7de44ba
+Thu 07 Sep 2023 03:47:45 PM UTC: 
+ hashmap.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+In file included from test.c:4:
+hashmap.c: In function ‘searchMap’:
+hashmap.c:92:23: error: ‘INITIAL_BUCKET_SIZE’ undeclared (first use in this function)
+   92 |   for (int i = 0; i < INITIAL_BUCKET_SIZE; i++) {
+      |                       ^~~~~~~~~~~~~~~~~~~
+hashmap.c:92:23: note: each undeclared identifier is reported only once for each function it appears in
+hashmap.c:93:19: error: incompatible types when initializing type ‘Pair *’ using type ‘Pair’
+   93 |     Pair * pair = map->buckets[index][i];
+      |                   ^~~
+Compilation failed
+19c431a
