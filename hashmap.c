@@ -64,15 +64,15 @@ void enlarge(HashMap * map) {
 
 
 HashMap * createMap(long capacity) {
-HashMap * map = (HashMap *)malloc(sizeof(HashMap));
-map->buckets = (Pair **)malloc(sizeof(Pair *) * capacity);
-map->size = 0;
-map->capacity = capacity;
-map->current = -1;
-for (long i = 0; i < capacity; i++) {
-  map->buckets[i] = NULL;
-}
-return map;
+  HashMap * map = (HashMap *)malloc(sizeof(HashMap));
+  map->buckets = (Pair **)malloc(sizeof(Pair *) * capacity);
+  map->size = 0;
+  map->capacity = capacity;
+  map->current = -1;
+  for (long i = 0; i < capacity; i++) {
+    map->buckets[i] = NULL;
+  }
+  return map;
 
 }
 
@@ -82,23 +82,7 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-  long index = hash(key, map->capacity);
-  Pair * pair = map->buckets[index];
-
-  // Verificar si el bucket está vacío
-  if (pair == NULL) {
-    return NULL; // El bucket está vacío, la clave no existe en el mapa
-  }
-
-  // Realizar una búsqueda lineal en el bucket
-  while (pair != NULL) {
-    if (strcmp(pair->key, key) == 0) {
-      return pair; // Se encontró la clave, devolvemos el par correspondiente
-    }
-    index = (index + 1) % map->capacity;
-    pair = map->buckets[index]; // Avanzar al siguiente elemento en caso de colisión
-  }
-
+  
   return NULL; // La clave no se encontró en el bucket
 
 }
