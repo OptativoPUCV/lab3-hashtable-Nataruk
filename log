@@ -242,3 +242,9 @@ hashmap.c:93:19: error: incompatible types when initializing type ‘Pair *’ u
       |                   ^~~
 Compilation failed
 cca2a08
+Thu 07 Sep 2023 04:06:31 PM UTC: 
+ hashmap.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+ tests:  3|5
+total_score: 20/70
+58d9577
