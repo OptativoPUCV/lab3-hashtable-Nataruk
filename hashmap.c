@@ -40,8 +40,20 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
-  
+  long index = hash(key, map->capacity);
+  Pair * newPair = createPair(key, value);
 
+  // Verificar si la clave ya existe y sobrescribir el valor
+  Pair * existingPair = searchMap(map, key);
+  if (existingPair != NULL) {
+      existingPair->value = value;
+      return;
+  }
+
+  // Insertar el nuevo par al inicio de la lista enlazada
+  newPair->next = map->buckets[index];
+  map->buckets[index] = newPair;
+  map->size++; // aumenta el tamaño
 }
 
 void enlarge(HashMap * map) {
@@ -55,14 +67,14 @@ HashMap * createMap(long capacity) {
   map->size = 0;
   map->capacity = capacity;
   map->current = -1;
-  for (long i = 0; i < capacity; i++) {
+  for (long i = 0; i < capacity; i++) { // el mapa se inicializa todos sus elementos en null
     map->buckets[i] = NULL;
   }
   return map;
 }
 
 void eraseMap(HashMap * map,  char * key) {    
-
+  
 
 }
 

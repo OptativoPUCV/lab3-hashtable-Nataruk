@@ -8,3 +8,13 @@ Thu 07 Sep 2023 02:37:32 PM UTC:
  tests:  1|5
 total_score: 10/70
 67a4fcf
+Thu 07 Sep 2023 02:44:26 PM UTC: 
+ hashmap.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+In file included from test.c:4:
+hashmap.c: In function ‘insertMap’:
+hashmap.c:54:10: error: ‘Pair’ has no member named ‘next’
+   54 |   newPair->next = map->buckets[index];
+      |          ^~
+Compilation failed
+eb8792c
