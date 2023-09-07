@@ -41,20 +41,30 @@ int is_equal(void* key1, void* key2){
 
 void insertMap(HashMap * map, char * key, void * value) {
   long index = hash(key, map->capacity);
-  Pair * newPair = createPair(key, value);
 
   // Verificar si el bucket ya tiene elementos
-  if (map->buckets[index] == NULL) {
-    // Si el bucket está vacío, simplemente asigna el nuevo par
+  Pair * current = map->buckets[index];
+  Pair * previous = NULL;
+
+  while (current != NULL) {
+    if (strcmp(current->key, key) == 0) {
+      // Si la clave ya existe, sobrescribe el valor y sale de la función
+      current->value = value;
+      return;
+    }
+    previous = current;
+    current = current->next;
+  }
+
+  // La clave no existe en el bucket, crea un nuevo par
+  Pair * newPair = createPair(key, value);
+
+  if (previous == NULL) {
+      // Si el bucket está vacío, asigna el nuevo par como primer elemento
     map->buckets[index] = newPair;
   } else {
-    // Si el bucket ya tiene elementos, crea una tabla hash secundaria si aún no existe
-    if (map->buckets[index]->value == NULL) {
-      map->buckets[index]->value = createMap(map->capacity);
-    }
-
-    // Inserta el nuevo par en la tabla hash secundaria
-    insertMap(map->buckets[index]->value, key, value);
+      // Si el bucket ya tiene elementos, agrega el nuevo par al final de la lista enlazada
+    previous->next = newPair;
   }
 
   map->size++;
