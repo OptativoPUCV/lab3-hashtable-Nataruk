@@ -40,51 +40,38 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
+ 
   long index = hash(key, map->capacity);
 
   // Verificar si el bucket ya tiene elementos
-  Pair * current = map->buckets[index];
-  Pair * previous = NULL;
-
-  while (current != NULL) {
-    if (strcmp(current->key, key) == 0) {
-      // Si la clave ya existe, sobrescribe el valor y sale de la función
-      current->value = value;
-      return;
-    }
-    previous = current;
-    current = current->next;
+  if (map->buckets[index] == NULL) {
+      // Si el bucket está vacío, creamos un arreglo dinámico para almacenar los pares
+      map->buckets[index] = (Pair **)malloc(sizeof(Pair *) * INITIAL_BUCKET_SIZE);
+      for (int i = 0; i < INITIAL_BUCKET_SIZE; i++) {
+          map->buckets[index][i] = NULL;
+      }
   }
 
-  // La clave no existe en el bucket, crea un nuevo par
+  // Verificar si la clave ya existe en el bucket
+  for (int i = 0; map->buckets[index][i] != NULL; i++) {
+      if (strcmp(map->buckets[index][i]->key, key) == 0) {
+          // Si la clave ya existe, sobrescribe el valor y sale de la función
+          map->buckets[index][i]->value = value;
+          return;
+      }
+  }
+
+  // Si la clave no existe en el bucket, buscamos un espacio vacío en el arreglo dinámico
+  int position = 0;
+  while (map->buckets[index][position] != NULL) {
+      position++;
+  }
+
+  // Creamos un nuevo par y lo insertamos en el espacio vacío
   Pair * newPair = createPair(key, value);
-
-  if (previous == NULL) {
-      // Si el bucket está vacío, asigna el nuevo par como primer elemento
-    map->buckets[index] = newPair;
-  } else {
-      // Si el bucket ya tiene elementos, agrega el nuevo par al final de la lista enlazada
-    previous->next = newPair;
-  }
-
+  map->buckets[index][position] = newPair;
   map->size++;
-}
 
-void enlarge(HashMap * map) {
-  enlarge_called = 1; //no borrar (testing purposes)
-}
-
-
-HashMap * createMap(long capacity) {
-  HashMap * map = (HashMap *)malloc(sizeof(HashMap));
-  map->buckets = (Pair **)malloc(sizeof(Pair *) * capacity);
-  map->size = 0;
-  map->capacity = capacity;
-  map->current = -1;
-  for (long i = 0; i < capacity; i++) { // el mapa se inicializa todos sus elementos en null
-    map->buckets[i] = NULL;
-  }
-  return map;
 }
 
 void eraseMap(HashMap * map,  char * key) {    
