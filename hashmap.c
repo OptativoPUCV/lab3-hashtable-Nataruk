@@ -96,32 +96,34 @@ void eraseMap(HashMap * map,  char * key) {
 
 Pair * searchMap(HashMap * map,  char * key) {   
   if (map == NULL || key == NULL) {
-    return NULL;  // Verificar entradas inválidas
-  }
-
-  long index = hash(key, map->capacity);
-
-  if (map->buckets[index] != NULL) {
-    // Si el bucket no está vacío, verifica si la clave coincide
-    if (is_equal(map->buckets[index]->key, key)) {
-      // La clave coincide, devuelve el valor correspondiente
-      return map->buckets[index];
-    } else {
-      // La clave no coincide, busca en los siguientes buckets (si hay colisiones)
-      long nextIndex = (index + 1) % map->capacity;
-      while (nextIndex != index) {
-        if (map->buckets[nextIndex] != NULL && is_equal(map->buckets[nextIndex]->key, key)) {
-          // Se encontró la clave en un bucket posterior, devuelve el valor correspondiente
-          return map->buckets[nextIndex];
-        }
-        // Intenta el siguiente bucket en el ciclo
-        nextIndex = (nextIndex + 1) % map->capacity;
-      }
+        return NULL;  // Verificar entradas inválidas
     }
-  }
 
-  // La clave no se encontró en ningún bucket
-  return NULL;
+    long index = hash(key, map->capacity);
+
+    if (map->buckets[index] != NULL) {
+        // Si el bucket no está vacío, verifica si la clave coincide
+        if (is_equal(map->buckets[index]->key, key)) {
+            // La clave coincide, actualiza el índice actual y devuelve el valor correspondiente
+            map->current = index;
+            return map->buckets[index];
+        } else {
+            // La clave no coincide, busca en los siguientes buckets (si hay colisiones)
+            long nextIndex = (index + 1) % map->capacity;
+            while (nextIndex != index) {
+                if (map->buckets[nextIndex] != NULL && is_equal(map->buckets[nextIndex]->key, key)) {
+                    // Se encontró la clave en un bucket posterior, actualiza el índice actual y devuelve el valor correspondiente
+                    map->current = nextIndex;
+                    return map->buckets[nextIndex];
+                }
+                // Intenta el siguiente bucket en el ciclo
+                nextIndex = (nextIndex + 1) % map->capacity;
+            }
+        }
+    }
+
+    // La clave no se encontró en ningún bucket, así que no se actualiza el índice actual
+    return NULL;
 }
 
 Pair * firstMap(HashMap * map) {
