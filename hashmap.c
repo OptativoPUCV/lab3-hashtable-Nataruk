@@ -44,11 +44,7 @@ void insertMap(HashMap * map, char * key, void * value) {
   Pair * newPair = createPair(key, value);
 
   // Verificar si la clave ya existe y sobrescribir el valor
-  Pair * existingPair = searchMap(map, key);
-  if (existingPair != NULL) {
-    existingPair->value = value;
-    return;
-  }
+  
 
   // Insertar el nuevo par en el bucket
   map->buckets[index] = newPair;
