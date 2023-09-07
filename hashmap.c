@@ -40,28 +40,30 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
- long index = hash(key, map->capacity);
-    Pair * newPair = createPair(key, value);
+  
 
-    // Verificar si el bucket ya tiene elementos
-    if (map->buckets[index] == NULL) {
-        // Si el bucket está vacío, simplemente asigna el nuevo par
-        map->buckets[index] = newPair;
-    } else {
-        // Si el bucket ya tiene elementos, crea una tabla hash secundaria si aún no existe
-        if (map->buckets[index]->value == NULL) {
-            map->buckets[index]->value = createMap(map->capacity);
-        }
+}
 
-        // Inserta el nuevo par en la tabla hash secundaria
-        insertMap(map->buckets[index]->value, key, value);
-    }
+void enlarge(HashMap * map) {
+  enlarge_called = 1; //no borrar (testing purposes)
+}
 
-    map->size++;
+
+HashMap * createMap(long capacity) {
+HashMap * map = (HashMap *)malloc(sizeof(HashMap));
+map->buckets = (Pair **)malloc(sizeof(Pair *) * capacity);
+map->size = 0;
+map->capacity = capacity;
+map->current = -1;
+for (long i = 0; i < capacity; i++) {
+  map->buckets[i] = NULL;
+}
+return map;
+
 }
 
 void eraseMap(HashMap * map,  char * key) {    
-  
+
 
 }
 
