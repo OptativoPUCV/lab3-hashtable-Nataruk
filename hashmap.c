@@ -40,7 +40,20 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
-  
+  long index = hash(key, map->capacity);
+  Pair * newPair = createPair(key, value);
+
+  // Verificar si la clave ya existe y sobrescribir el valor
+  Pair * existingPair = searchMap(map, key);
+  if (existingPair != NULL) {
+      existingPair->value = value;
+      return;
+  }
+
+  // Insertar el nuevo par al inicio de la lista enlazada
+  newPair->next = map->buckets[index];
+  map->buckets[index] = newPair;
+  map->size++;
 
 }
 
@@ -68,17 +81,9 @@ void eraseMap(HashMap * map,  char * key) {
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-  long index = hash(key, map->capacity);
-  Pair * current = map->buckets[index];
+  
 
-  while (current != NULL) {
-    if (strcmp(current->key, key) == 0) {
-      return current;
-    }
-    current = current->next;
-  }
-
-  return NULL; // La clave no se encontró en el mapa
+  return NULL; 
 
 }
 
