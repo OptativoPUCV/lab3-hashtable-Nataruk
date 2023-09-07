@@ -50,10 +50,11 @@ void insertMap(HashMap * map, char * key, void * value) {
     return;
   }
 
-  // Insertar el nuevo par al inicio de la lista enlazada
-  //newPair->next = map->buckets[index];
+  // Insertar el nuevo par en el bucket
   map->buckets[index] = newPair;
   map->size++;
+
+  // Actualizar el índice actual
   map->current = index;
 }
 
