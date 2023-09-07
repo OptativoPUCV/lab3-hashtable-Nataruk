@@ -18,3 +18,28 @@ hashmap.c:54:10: error: ‘Pair’ has no member named ‘next’
       |          ^~
 Compilation failed
 eb8792c
+Thu 07 Sep 2023 02:52:36 PM UTC: 
+ hashmap.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+In file included from test.c:4:
+hashmap.c: In function ‘insertMap’:
+hashmap.c:45:1: error: ‘e’ undeclared (first use in this function)
+   45 | e
+      | ^
+hashmap.c:45:1: note: each undeclared identifier is reported only once for each function it appears in
+hashmap.c:45:2: error: expected ‘;’ before ‘if’
+   45 | e
+      |  ^
+      |  ;
+   46 |   // Verificar si el bucket ya tiene elementos
+   47 |   if (map->buckets[index] == NULL) {
+      |   ~~
+hashmap.c:44:10: error: unused variable ‘newPair’ [-Werror=unused-variable]
+   44 |   Pair * newPair = createPair(key, value);
+      |          ^~~~~~~
+hashmap.c:43:8: error: unused variable ‘index’ [-Werror=unused-variable]
+   43 |   long index = hash(key, map->capacity);
+      |        ^~~~~
+cc1: all warnings being treated as errors
+Compilation failed
+1f0bf5e

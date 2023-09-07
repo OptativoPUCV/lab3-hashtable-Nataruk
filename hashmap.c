@@ -42,18 +42,22 @@ int is_equal(void* key1, void* key2){
 void insertMap(HashMap * map, char * key, void * value) {
   long index = hash(key, map->capacity);
   Pair * newPair = createPair(key, value);
+e
+  // Verificar si el bucket ya tiene elementos
+  if (map->buckets[index] == NULL) {
+    // Si el bucket está vacío, simplemente asigna el nuevo par
+    map->buckets[index] = newPair;
+  } else {
+    // Si el bucket ya tiene elementos, crea una tabla hash secundaria si aún no existe
+    if (map->buckets[index]->value == NULL) {
+      map->buckets[index]->value = createMap(map->capacity);
+    }
 
-  // Verificar si la clave ya existe y sobrescribir el valor
-  Pair * existingPair = searchMap(map, key);
-  if (existingPair != NULL) {
-      existingPair->value = value;
-      return;
+    // Inserta el nuevo par en la tabla hash secundaria
+    insertMap(map->buckets[index]->value, key, value);
   }
 
-  // Insertar el nuevo par al inicio de la lista enlazada
-  newPair->next = map->buckets[index];
-  map->buckets[index] = newPair;
-  map->size++; // aumenta el tamaño
+  map->size++;
 }
 
 void enlarge(HashMap * map) {
