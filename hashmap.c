@@ -73,6 +73,44 @@ void insertMap(HashMap * map, char * key, void * value) {
 
 void enlarge(HashMap * map) {
   enlarge_called = 1; //no borrar (testing purposes)
+  if (map == NULL) {
+        return; // Verificar entrada inválida
+    }
+
+    // Guardar la información de la tabla actual
+    Pair ** oldBuckets = map->buckets;
+    long oldCapacity = map->capacity;
+
+    // Calcular la nueva capacidad (por ejemplo, duplicarla)
+    long newCapacity = oldCapacity * 2;
+
+    // Crear una nueva tabla con la nueva capacidad
+    Pair ** newBuckets = (Pair **)malloc(sizeof(Pair *) * newCapacity);
+
+    if (newBuckets == NULL) {
+        // Manejar el error de asignación de memoria, si es necesario
+        return;
+    }
+
+    // Inicializar los nuevos buckets como nulos
+    for (long i = 0; i < newCapacity; i++) {
+        newBuckets[i] = NULL;
+    }
+
+    // Transferir los pares clave-valor de la tabla actual a la nueva tabla
+    for (long i = 0; i < oldCapacity; i++) {
+        if (oldBuckets[i] != NULL) {
+            long newIndex = hash(oldBuckets[i]->key, newCapacity);
+            newBuckets[newIndex] = oldBuckets[i];
+        }
+    }
+
+    // Actualizar la estructura del mapa con la nueva información
+    map->buckets = newBuckets;
+    map->capacity = newCapacity;
+
+    // Liberar la memoria de la tabla anterior (oldBuckets)
+    free(oldBuckets);
 }
 
 
