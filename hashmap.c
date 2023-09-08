@@ -90,7 +90,23 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
- 
+ if (map == NULL || key == NULL) {
+        return;  // Verificar entradas inválidas
+    }
+
+    long index = hash(key, map->capacity);
+
+    if (map->buckets[index] != NULL) {
+        // Si el bucket no está vacío, verifica si la clave coincide
+        if (is_equal(map->buckets[index]->key, key)) {
+            // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
+            free(map->buckets[index]->key); // Libera la memoria de la clave
+            free(map->buckets[index]); // Libera la memoria del par clave-valor
+            map->buckets[index] = NULL;
+            map->size--;
+            return;
+        }
+    }
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
