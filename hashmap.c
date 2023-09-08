@@ -74,43 +74,43 @@ void insertMap(HashMap * map, char * key, void * value) {
 void enlarge(HashMap * map) {
   enlarge_called = 1; //no borrar (testing purposes)
   if (map == NULL) {
-        return; // Verificar entrada inválida
+    return; // Verificar entrada inválida
+  }
+
+  // Guardar la información de la tabla actual
+  Pair ** oldBuckets = map->buckets;
+  long oldCapacity = map->capacity;
+
+  // Calcular la nueva capacidad (por ejemplo, duplicarla)
+  long newCapacity = oldCapacity * 2;
+
+  // Crear una nueva tabla con la nueva capacidad
+  Pair ** newBuckets = (Pair **)malloc(sizeof(Pair *) * newCapacity);
+
+  if (newBuckets == NULL) {
+    // Manejar el error de asignación de memoria, si es necesario
+    return;
+  }
+
+  // Inicializar los nuevos buckets como nulos
+  for (long i = 0; i < newCapacity; i++) {
+    newBuckets[i] = NULL;
+  }
+
+  // Transferir los pares clave-valor de la tabla actual a la nueva tabla
+  for (long i = 0; i < oldCapacity; i++) {
+    if (oldBuckets[i] != NULL) {
+      long newIndex = hash(oldBuckets[i]->key, newCapacity);
+      newBuckets[newIndex] = oldBuckets[i];
     }
+  }
 
-    // Guardar la información de la tabla actual
-    Pair ** oldBuckets = map->buckets;
-    long oldCapacity = map->capacity;
+  // Actualizar la estructura del mapa con la nueva información
+  map->buckets = newBuckets;
+  map->capacity = newCapacity;
 
-    // Calcular la nueva capacidad (por ejemplo, duplicarla)
-    long newCapacity = oldCapacity * 2;
-
-    // Crear una nueva tabla con la nueva capacidad
-    Pair ** newBuckets = (Pair **)malloc(sizeof(Pair *) * newCapacity);
-
-    if (newBuckets == NULL) {
-        // Manejar el error de asignación de memoria, si es necesario
-        return;
-    }
-
-    // Inicializar los nuevos buckets como nulos
-    for (long i = 0; i < newCapacity; i++) {
-        newBuckets[i] = NULL;
-    }
-
-    // Transferir los pares clave-valor de la tabla actual a la nueva tabla
-    for (long i = 0; i < oldCapacity; i++) {
-        if (oldBuckets[i] != NULL) {
-            long newIndex = hash(oldBuckets[i]->key, newCapacity);
-            newBuckets[newIndex] = oldBuckets[i];
-        }
-    }
-
-    // Actualizar la estructura del mapa con la nueva información
-    map->buckets = newBuckets;
-    map->capacity = newCapacity;
-
-    // Liberar la memoria de la tabla anterior (oldBuckets)
-    free(oldBuckets);
+  // Liberar la memoria de la tabla anterior (oldBuckets)
+  free(oldBuckets);
 }
 
 
@@ -128,7 +128,7 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
- if (map == NULL || key == NULL) {
+  if (map == NULL || key == NULL) {
         return;  // Verificar entradas inválidas
     }
 
@@ -207,8 +207,7 @@ Pair * firstMap(HashMap * map) {
         }
     }
 
-    // No se encontraron pares clave-valor en el mapa
-    map->current = -1; // Restablecer el índice actual
+    // No se encontraron pares clave-valor en el mapa, pero no establezcas map->current en -1
     return NULL;
 }
 
