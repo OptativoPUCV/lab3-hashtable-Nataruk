@@ -174,6 +174,25 @@ Pair * firstMap(HashMap * map) {
 }
 
 Pair * nextMap(HashMap * map) {
+  if (map == NULL) {
+        return NULL;
+    }
 
+    long currentIndex = map->current;
+
+    // Verificar si el mapa está vacío o si ya se accedió al último elemento
+    if (currentIndex == -1 || currentIndex >= map->capacity - 1) {
+        return NULL;
+    }
+
+    // Buscar el siguiente par clave-valor no nulo
+    for (long nextIndex = currentIndex + 1; nextIndex < map->capacity; nextIndex++) {
+        if (map->buckets[nextIndex] != NULL) {
+            map->current = nextIndex;
+            return map->buckets[nextIndex];
+        }
+    }
+
+    // No se encontraron más pares clave-valor en el mapa
     return NULL;
 }
