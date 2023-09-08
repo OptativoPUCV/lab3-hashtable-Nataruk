@@ -157,7 +157,19 @@ Pair * searchMap(HashMap * map,  char * key) {
 }
 
 Pair * firstMap(HashMap * map) {
+  if (map == NULL) {
+        return NULL;  // Verificar entrada inválida
+    }
 
+    // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
+    for (long index = 0; index < map->capacity; index++) {
+        if (map->buckets[index] != NULL) {
+            map->current = index; // Actualizar el índice actual
+            return map->buckets[index];
+        }
+    }
+
+    // No se encontraron pares clave-valor en el mapa
     return NULL;
 }
 
