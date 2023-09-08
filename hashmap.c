@@ -199,6 +199,11 @@ Pair * firstMap(HashMap * map) {
         return NULL;  // Verificar entrada inválida
     }
 
+    // Verificar si el elemento actual es nulo o no
+    if (map->current != -1 && map->buckets[map->current] != NULL) {
+        return map->buckets[map->current];
+    }
+
     // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
     for (long index = 0; index < map->capacity; index++) {
         if (map->buckets[index] != NULL) {
