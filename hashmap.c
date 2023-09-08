@@ -122,6 +122,7 @@ void eraseMap(HashMap * map,  char * key) {
       }
     }
   }
+  return
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
