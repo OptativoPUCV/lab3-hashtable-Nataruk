@@ -218,25 +218,22 @@ Pair * firstMap(HashMap * map) {
 }
 
 Pair * nextMap(HashMap * map) {
-  if (map == NULL) {
-        return NULL;
+  if (map == NULL || map->current == -1) {
+        return NULL; // Verificar entrada inválida o ningún elemento previamente accedido
     }
 
-    long currentIndex = map->current;
-
-    // Verificar si el mapa está vacío o si ya se accedió al último elemento
-    if (currentIndex == -1 || currentIndex >= map->capacity - 1) {
-        return NULL;
-    }
+    // Comenzar desde el siguiente índice después del último elemento accedido
+    long currentIndex = map->current + 1;
 
     // Buscar el siguiente par clave-valor no nulo
-    for (long nextIndex = currentIndex + 1; nextIndex < map->capacity; nextIndex++) {
+    for (long nextIndex = currentIndex; nextIndex < map->capacity; nextIndex++) {
         if (map->buckets[nextIndex] != NULL) {
-            map->current = nextIndex;
+            map->current = nextIndex; // Actualizar el índice actual
             return map->buckets[nextIndex];
         }
     }
 
     // No se encontraron más pares clave-valor en el mapa
+    map->current = -1; // Restablecer el índice actual
     return NULL;
 }
