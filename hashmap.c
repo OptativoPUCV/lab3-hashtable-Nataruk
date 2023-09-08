@@ -207,7 +207,8 @@ Pair * firstMap(HashMap * map) {
         }
     }
 
-    // No se encontraron pares clave-valor en el mapa, pero no establezcas map->current en -1
+    // No se encontraron pares clave-valor en el mapa
+    map->current = -1; // Restablecer el índice actual
     return NULL;
 }
 
