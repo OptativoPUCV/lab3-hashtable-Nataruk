@@ -133,9 +133,9 @@ void eraseMap(HashMap * map,  char * key) {
     }
 
     long index = hash(key, map->capacity);
+    long startIndex = index;
 
-    if (map->buckets[index] != NULL) {
-        // Si el bucket no está vacío, verifica si la clave coincide
+    while (map->buckets[index] != NULL) {
         if (is_equal(map->buckets[index]->key, key)) {
             // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
             free(map->buckets[index]->key);
@@ -143,21 +143,14 @@ void eraseMap(HashMap * map,  char * key) {
             map->buckets[index] = NULL;
             map->size--;
             return;
-        } else {
-            // La clave no coincide, busca en los siguientes buckets (si hay colisiones)
-            long nextIndex = (index + 1) % map->capacity;
-            while (nextIndex != index) {
-                if (map->buckets[nextIndex] != NULL && is_equal(map->buckets[nextIndex]->key, key)) {
-                    // Se encontró la clave en un bucket posterior, libera la memoria del par clave-valor y marca el bucket como vacío
-                    free(map->buckets[nextIndex]->key);
-                    free(map->buckets[nextIndex]);
-                    map->buckets[nextIndex] = NULL;
-                    map->size--;
-                    return;
-                }
-                // Intenta el siguiente bucket en el ciclo
-                nextIndex = (nextIndex + 1) % map->capacity;
-            }
+        }
+
+        // Avanzar al siguiente bucket
+        index = (index + 1) % map->capacity;
+
+        // Si hemos vuelto al inicio, la clave no existe en el mapa
+        if (index == startIndex) {
+            return;  // La clave no se encontró
         }
     }
 }
