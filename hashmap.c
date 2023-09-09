@@ -133,7 +133,6 @@ void eraseMap(HashMap * map,  char * key) {
   }
 
   long index = hash(key, map->capacity);
-  long startIndex = index;
 
   while (map->buckets[index] != NULL) {
     if (map->buckets[index]->key != NULL && strcmp(map->buckets[index]->key, key) == 0) {
@@ -147,11 +146,6 @@ void eraseMap(HashMap * map,  char * key) {
 
     // Avanzar al siguiente bucket
     index = (index + 1) % map->capacity;
-
-    // Si hemos vuelto al inicio, la clave no existe en el mapa
-    if (index == startIndex) {
-      return;  // La clave no se encontró
-    }
   }
 }
 
