@@ -591,3 +591,45 @@ Sat 09 Sep 2023 12:57:37 AM UTC:
  tests:  10|2
 total_score: 50/70
 fded1cb
+Sat 09 Sep 2023 12:59:50 AM UTC: 
+ hashmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+In file included from test.c:4:
+hashmap.c: In function ‘eraseMap’:
+hashmap.c:131:2: error: implicit declaration of function ‘iif’ [-Werror=implicit-function-declaration]
+  131 |  iif (map == NULL || key == NULL) {
+      |  ^~~
+hashmap.c:131:34: error: expected ‘;’ before ‘{’ token
+  131 |  iif (map == NULL || key == NULL) {
+      |                                  ^~
+      |                                  ;
+hashmap.c:136:23: error: initialization of ‘long int’ from ‘char * (*)(const char *, int)’ makes integer from pointer without a cast [-Werror=int-conversion]
+  136 |     long startIndex = index;
+      |                       ^~~~~
+hashmap.c:138:24: error: array subscript is not an integer
+  138 |     while (map->buckets[index] != NULL) {
+      |                        ^
+hashmap.c:139:34: error: array subscript is not an integer
+  139 |         if (is_equal(map->buckets[index]->key, key)) {
+      |                                  ^
+hashmap.c:141:30: error: array subscript is not an integer
+  141 |             free(map->buckets[index]->key);
+      |                              ^
+hashmap.c:142:30: error: array subscript is not an integer
+  142 |             free(map->buckets[index]);
+      |                              ^
+hashmap.c:143:25: error: array subscript is not an integer
+  143 |             map->buckets[index] = NULL;
+      |                         ^
+hashmap.c:149:29: error: invalid operands to binary % (have ‘char * (*)(const char *, int)’ and ‘long int’)
+  149 |         index = (index + 1) % map->capacity;
+      |                 ~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+      |                        |         |
+      |                        |         long int
+      |                        char * (*)(const char *, int)
+hashmap.c:152:19: error: comparison between pointer and integer [-Werror]
+  152 |         if (index == startIndex) {
+      |                   ^~
+cc1: all warnings being treated as errors
+Compilation failed
+e718a6d

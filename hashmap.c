@@ -128,31 +128,31 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
- if (map == NULL || key == NULL) {
-    return;  // Verificar entradas inválidas
-  }
-
-  long index = hash(key, map->capacity);
-  long startIndex = index;
-
-  while (map->buckets[index] != NULL) {
-    if (is_equal(map->buckets[index]->key, key)) {
-      // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
-      free(map->buckets[index]->key);
-      free(map->buckets[index]);
-      map->buckets[index] = NULL;
-      map->size--;
-      return;
+ iif (map == NULL || key == NULL) {
+        return;  // Verificar entradas inválidas
     }
 
-    // Avanzar al siguiente bucket
-    index = (index + 1) % map->capacity;
+    long index = hash(key, map->capacity);
+    long startIndex = index;
 
-    // Si hemos vuelto al inicio, la clave no existe en el mapa
-    if (index == startIndex) {
-      return;  // La clave no se encontró
+    while (map->buckets[index] != NULL) {
+        if (is_equal(map->buckets[index]->key, key)) {
+            // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
+            free(map->buckets[index]->key);
+            free(map->buckets[index]);
+            map->buckets[index] = NULL;
+            map->size--;
+            return;
+        }
+
+        // Avanzar al siguiente bucket
+        index = (index + 1) % map->capacity;
+
+        // Si hemos vuelto al inicio, la clave no existe en el mapa
+        if (index == startIndex) {
+            return;  // La clave no se encontró
+        }
     }
-  }
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
@@ -190,30 +190,30 @@ Pair * searchMap(HashMap * map,  char * key) {
 Pair * firstMap(HashMap * map) {
   static int firstMapCalled = 0; // Variable estática para registrar si firstMap se ha llamado
 
-    if (map == NULL) {
-        return NULL;  // Verificar entrada inválida
+  if (map == NULL) {
+    return NULL;  // Verificar entrada inválida
+  }
+
+  if (!firstMapCalled) {
+    map->current = -1; // Restablecer el índice actual
+
+    // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
+    for (long index = 0; index < map->capacity; index++) {
+      if (map->buckets[index] != NULL) {
+        map->current = index; // Actualizar el índice actual
+        firstMapCalled = 1; // Marcar que firstMap se ha llamado
+        return map->buckets[index];
+      }
     }
-
-    if (!firstMapCalled) {
-        map->current = -1; // Restablecer el índice actual
-
-        // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
-        for (long index = 0; index < map->capacity; index++) {
-            if (map->buckets[index] != NULL) {
-                map->current = index; // Actualizar el índice actual
-                firstMapCalled = 1; // Marcar que firstMap se ha llamado
-                return map->buckets[index];
-            }
-        }
-    } else {
-        // Si firstMap ya se llamó, simplemente retorna el primer elemento encontrado
-        if (map->current != -1 && map->buckets[map->current] != NULL) {
-            return map->buckets[map->current];
-        }
+  } else {
+    // Si firstMap ya se llamó, simplemente retorna el primer elemento encontrado
+    if (map->current != -1 && map->buckets[map->current] != NULL) {
+      return map->buckets[map->current];
     }
+  }
 
-    // No se encontraron pares clave-valor en el mapa
-    return NULL;
+  // No se encontraron pares clave-valor en el mapa
+  return NULL;
 }
 
 Pair * nextMap(HashMap * map) {
