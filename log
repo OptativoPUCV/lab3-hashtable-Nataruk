@@ -567,3 +567,9 @@ hashmap.c:134:8: note: previous definition of ‘searchMap’ with type ‘Pair 
       |        ^~~~~~~~~
 Compilation failed
 3ae539f
+Sat 09 Sep 2023 12:45:44 AM UTC: 
+ hashmap.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
+ tests:  10|2
+total_score: 50/70
+850d0f4
