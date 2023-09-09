@@ -497,3 +497,48 @@ hashmap.c:152:8: note: previous definition of ‘searchMap’ with type ‘Pair 
       |        ^~~~~~~~~
 Compilation failed
 ebef0ef
+Sat 09 Sep 2023 12:44:46 AM UTC: 
+ hashmap.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+In file included from test.c:4:
+hashmap.c: In function ‘eraseMap’:
+hashmap.c:132:16: error: ‘return’ with a value, in function returning void [-Werror=return-type]
+  132 |         return NULL;
+      |                ^~~~
+hashmap.c:130:6: note: declared here
+  130 | void eraseMap(HashMap * map,  char * key) {
+      |      ^~~~~~~~
+hashmap.c:139:32: error: ‘return’ with a value, in function returning void [-Werror=return-type]
+  139 |             return map->buckets[index];
+      |                    ~~~~~~~~~~~~^~~~~~~
+hashmap.c:130:6: note: declared here
+  130 | void eraseMap(HashMap * map,  char * key) {
+      |      ^~~~~~~~
+hashmap.c:145:12: error: ‘return’ with a value, in function returning void [-Werror=return-type]
+  145 |     return NULL;  // La clave no se encontró en el mapa
+      |            ^~~~
+hashmap.c:130:6: note: declared here
+  130 | void eraseMap(HashMap * map,  char * key) {
+      |      ^~~~~~~~
+hashmap.c: In function ‘searchMap’:
+hashmap.c:150:11: error: called object is not a function or function pointer
+  150 |   if((map == NULL)  (key == NULL)) return NULL;
+      |      ~~~~~^~~~~~~~
+hashmap.c:153:76: error: called object is not a function or function pointer
+  153 |   while ((map -> buckets[index] != NULL) && ((map -> buckets[index] -> key == NULL)  (strcmp(map -> buckets[index] -> key, key) != 0))) index = (index + 1) % map -> capacity;
+      |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+In file included from test.c:4:
+hashmap.c: At top level:
+hashmap.c:160:1: error: expected identifier or ‘(’ before ‘}’ token
+  160 | }
+      | ^
+hashmap.c:162:8: error: redefinition of ‘searchMap’
+  162 | Pair * searchMap(HashMap * map,  char * key) {
+      |        ^~~~~~~~~
+In file included from test.c:4:
+hashmap.c:148:8: note: previous definition of ‘searchMap’ with type ‘Pair *(HashMap *, char *)’ {aka ‘Pair *(struct HashMap *, char *)’}
+  148 | Pair * searchMap(HashMap * map,  char * key) {
+      |        ^~~~~~~~~
+cc1: all warnings being treated as errors
+Compilation failed
+d57195e
