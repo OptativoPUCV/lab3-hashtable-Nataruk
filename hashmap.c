@@ -188,17 +188,27 @@ Pair * searchMap(HashMap * map,  char * key) {
 }
 
 Pair * firstMap(HashMap * map) {
-  if (map == NULL) {
+  static int firstMapCalled = 0; // Variable estática para registrar si firstMap se ha llamado
+
+    if (map == NULL) {
         return NULL;  // Verificar entrada inválida
     }
 
-    map->current = -1; // Restablecer el índice actual
+    if (!firstMapCalled) {
+        map->current = -1; // Restablecer el índice actual
 
-    // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
-    for (long index = 0; index < map->capacity; index++) {
-        if (map->buckets[index] != NULL) {
-            map->current = index; // Actualizar el índice actual
-            return map->buckets[index];
+        // Iterar a través de los buckets para encontrar el primer par clave-valor no nulo
+        for (long index = 0; index < map->capacity; index++) {
+            if (map->buckets[index] != NULL) {
+                map->current = index; // Actualizar el índice actual
+                firstMapCalled = 1; // Marcar que firstMap se ha llamado
+                return map->buckets[index];
+            }
+        }
+    } else {
+        // Si firstMap ya se llamó, simplemente retorna el primer elemento encontrado
+        if (map->current != -1 && map->buckets[map->current] != NULL) {
+            return map->buckets[map->current];
         }
     }
 
@@ -208,21 +218,21 @@ Pair * firstMap(HashMap * map) {
 
 Pair * nextMap(HashMap * map) {
   if (map == NULL || map->current == -1) {
-        return NULL; // Verificar entrada inválida o ningún elemento previamente accedido
+    return NULL; // Verificar entrada inválida o ningún elemento previamente accedido
+  }
+
+  // Comenzar desde el siguiente índice después del último elemento accedido
+  long currentIndex = map->current + 1;
+
+  // Buscar el siguiente par clave-valor no nulo
+  for (long nextIndex = currentIndex; nextIndex < map->capacity; nextIndex++) {
+    if (map->buckets[nextIndex] != NULL) {
+      map->current = nextIndex; // Actualizar el índice actual
+      return map->buckets[nextIndex];
     }
+  }
 
-    // Comenzar desde el siguiente índice después del último elemento accedido
-    long currentIndex = map->current + 1;
-
-    // Buscar el siguiente par clave-valor no nulo
-    for (long nextIndex = currentIndex; nextIndex < map->capacity; nextIndex++) {
-        if (map->buckets[nextIndex] != NULL) {
-            map->current = nextIndex; // Actualizar el índice actual
-            return map->buckets[nextIndex];
-        }
-    }
-
-    // No se encontraron más pares clave-valor en el mapa
-    map->current = -1; // Restablecer el índice actual
-    return NULL;
+  // No se encontraron más pares clave-valor en el mapa
+  map->current = -1; // Restablecer el índice actual
+  return NULL;
 }
