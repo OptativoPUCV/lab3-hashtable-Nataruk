@@ -542,3 +542,28 @@ hashmap.c:148:8: note: previous definition of ‘searchMap’ with type ‘Pair 
 cc1: all warnings being treated as errors
 Compilation failed
 d57195e
+Sat 09 Sep 2023 12:45:15 AM UTC: 
+ hashmap.c | 14 --------------
+ 1 file changed, 14 deletions(-)
+In file included from test.c:4:
+hashmap.c: In function ‘searchMap’:
+hashmap.c:136:11: error: called object is not a function or function pointer
+  136 |   if((map == NULL)  (key == NULL)) return NULL;
+      |      ~~~~~^~~~~~~~
+hashmap.c:139:76: error: called object is not a function or function pointer
+  139 |   while ((map -> buckets[index] != NULL) && ((map -> buckets[index] -> key == NULL)  (strcmp(map -> buckets[index] -> key, key) != 0))) index = (index + 1) % map -> capacity;
+      |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+In file included from test.c:4:
+hashmap.c: At top level:
+hashmap.c:146:1: error: expected identifier or ‘(’ before ‘}’ token
+  146 | }
+      | ^
+hashmap.c:148:8: error: redefinition of ‘searchMap’
+  148 | Pair * searchMap(HashMap * map,  char * key) {
+      |        ^~~~~~~~~
+In file included from test.c:4:
+hashmap.c:134:8: note: previous definition of ‘searchMap’ with type ‘Pair *(HashMap *, char *)’ {aka ‘Pair *(struct HashMap *, char *)’}
+  134 | Pair * searchMap(HashMap * map,  char * key) {
+      |        ^~~~~~~~~
+Compilation failed
+3ae539f
