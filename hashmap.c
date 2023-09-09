@@ -128,7 +128,7 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
- iif (map == NULL || key == NULL) {
+ if (map == NULL || key == NULL) {
         return;  // Verificar entradas inválidas
     }
 
