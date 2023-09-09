@@ -128,19 +128,24 @@ HashMap * createMap(long capacity) {
 }
 
 void eraseMap(HashMap * map,  char * key) {    
-  if((map == NULL)&&(key == NULL)){
-    return;
-  } 
-  long index = hash(key, map -> capacity);
-
-  while ((map -> buckets[index] != NULL) && ((map -> buckets[index] -> key == NULL)  (strcmp(map -> buckets[index] -> key, key) != 0))){
-    index = (index + 1) % map -> capacity;
+   if (map == NULL || key == NULL) {
+    return;  // Verificar entradas inválidas
   }
-    
 
-  if ((map -> buckets[index] != NULL) && (map -> buckets[index] -> key != NULL) && (strcmp(map -> buckets[index] -> key, key) == 0)){
-    map -> buckets[index] -> key = NULL;
-    map -> size--;
+  long index = hash(key, map->capacity);
+
+  while (map->buckets[index] != NULL) {
+    if (is_equal(map->buckets[index]->key, key)) {
+      // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
+      free(map->buckets[index]->key);
+      free(map->buckets[index]);
+      map->buckets[index] = NULL;
+      map->size--;
+      return;
+    }
+
+    // Avanzar al siguiente bucket
+    index = (index + 1) % map->capacity;
   }
 }
 
