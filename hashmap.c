@@ -129,30 +129,30 @@ HashMap * createMap(long capacity) {
 
 void eraseMap(HashMap * map,  char * key) {    
  if (map == NULL || key == NULL) {
-        return;  // Verificar entradas inválidas
+    return;  // Verificar entradas inválidas
+  }
+
+  long index = hash(key, map->capacity);
+  long startIndex = index;
+
+  while (map->buckets[index] != NULL) {
+    if (map->buckets[index]->key != NULL && strcmp(map->buckets[index]->key, key) == 0) {
+      // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
+      free(map->buckets[index]->key);
+      free(map->buckets[index]);
+      map->buckets[index] = NULL;
+      map->size--;
+      return;
     }
 
-    long index = hash(key, map->capacity);
-    long startIndex = index;
+    // Avanzar al siguiente bucket
+    index = (index + 1) % map->capacity;
 
-    while (map->buckets[index] != NULL) {
-        if (is_equal(map->buckets[index]->key, key)) {
-            // La clave coincide, libera la memoria del par clave-valor y marca el bucket como vacío
-            free(map->buckets[index]->key);
-            free(map->buckets[index]);
-            map->buckets[index] = NULL;
-            map->size--;
-            return;
-        }
-
-        // Avanzar al siguiente bucket
-        index = (index + 1) % map->capacity;
-
-        // Si hemos vuelto al inicio, la clave no existe en el mapa
-        if (index == startIndex) {
-            return;  // La clave no se encontró
-        }
+    // Si hemos vuelto al inicio, la clave no existe en el mapa
+    if (index == startIndex) {
+      return;  // La clave no se encontró
     }
+  }
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
